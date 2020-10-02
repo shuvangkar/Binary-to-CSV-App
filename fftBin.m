@@ -32,7 +32,7 @@ for i = 1:length(f)
     end
 end
 
-plot(f,P1) 
+% plot(f,P1) 
 
 
 end
