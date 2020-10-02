@@ -10,15 +10,16 @@ for i = 1:numel(filesList)
     fileName = filesList(i).name;
     File = fullfile(fileDir, fileName);
     structFile = binToStruct(File);
-    csv = structToCsv(structFile);
-    
-    csvFileName = filenameToStr(fileName);
-    csvFile = "";
-    csvFile = csvFile + folder + '\' + csvFileName;
-    
-    fid=fopen(csvFile,'w');
-    fprintf(fid,'%s',csv);  
-    fclose(fid);
+    thdCsv = structToThdCSV(structFile);
+%     csv = structToCsv(structFile);
+%     
+%     csvFileName = filenameToStr(fileName);
+%     csvFile = "";
+%     csvFile = csvFile + folder + '\' + csvFileName;
+%     
+%     fid=fopen(csvFile,'w');
+%     fprintf(fid,'%s',csv);  
+%     fclose(fid);
 end
 
 
