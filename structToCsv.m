@@ -13,8 +13,7 @@ function csv = structToCsv(dataStruct)
           progress = (i/n)*100.0;
           msg = sprintf('Current File done: %3.1f \n', progress);
           fprintf([reverseStr, msg]);
-          reverseStr = repmat(sprintf('\b'), 1, length(msg));
-          
+          reverseStr = repmat(sprintf('\b'), 1, length(msg));      
     end
     csv = str;
 %     fid=fopen('sample.csv','w');
@@ -22,6 +21,7 @@ function csv = structToCsv(dataStruct)
 %     fclose(fid);
 end
 
+%% This function converter single structure to to csv String 
 function csvStr =  strucToCsvString(dataStruct)
     str = "";
     [m,n] = size(dataStruct.data);
