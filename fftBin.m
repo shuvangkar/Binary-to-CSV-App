@@ -2,9 +2,9 @@ function data = fftBin(samples,Fs)
 
 x = [];
 if(Fs == 500)
-    x = samples(1:50)
+    x = samples(1:50);
 elseif(Fs == 1000)
-    x = samples(1:100)
+    x = samples(1:100);
 end
 L = length(x)
 
