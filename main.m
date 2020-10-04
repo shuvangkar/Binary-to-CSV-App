@@ -1,6 +1,15 @@
+% Shuvangkar Shuvo
+% Binary file to CSV conversion 
+% with fft calculation
+
 clc;
 close all;
 clear all;
+
+Fs = 1000;           %Samplng Frequency
+thdGen = true;      % generate thd 
+dataGen = true;     %Generate Data file
+
 
 folder = uigetdir(pwd, 'Select a folder');
 filesList = getFiles(folder,'.bin');
@@ -10,16 +19,28 @@ for i = 1:numel(filesList)
     fileName = filesList(i).name;
     File = fullfile(fileDir, fileName);
     structFile = binToStruct(File);
-    thdCsv = structToThdCSV(structFile);
-%     csv = structToCsv(structFile);
-%     
-%     csvFileName = filenameToStr(fileName);
-%     csvFile = "";
-%     csvFile = csvFile + folder + '\' + csvFileName;
-%     
-%     fid=fopen(csvFile,'w');
-%     fprintf(fid,'%s',csv);  
-%     fclose(fid);
+    
+    %% THD Store to CSV
+    if(thdGen)
+        thdCsv = structToThdCSV(structFile,Fs);
+        thdFileName = filenameToStr(fileName);
+        thdFile = "";
+        thdFile = thdFile + folder + "\fft_"+ thdFileName;
+        fidThd = fopen(thdFile,'w');
+        fprintf(fidThd,'%s',thdCsv);
+        fclose(fidThd);    
+    end
+    %% Raw Data store to CSV
+    if(dataGen)
+        csv = structToCsv(structFile);
+        csvFileName = filenameToStr(fileName);
+        csvFile = "";
+        csvFile = csvFile + folder + '\data_' + csvFileName;
+        fid=fopen(csvFile,'w');
+        fprintf(fid,'%s',csv);  
+        fclose(fid);
+    end
+
 end
 
 

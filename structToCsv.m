@@ -11,7 +11,7 @@ function csv = structToCsv(dataStruct)
           
           %%print progress 
           progress = (i/n)*100.0;
-          msg = sprintf('Current File done: %3.1f \n', progress);
+          msg = sprintf('Current Data Generation done: %3.1f \n', progress);
           fprintf([reverseStr, msg]);
           reverseStr = repmat(sprintf('\b'), 1, length(msg));      
     end

@@ -2,11 +2,11 @@ function data = fftBin(samples,Fs)
 
 x = [];
 if(Fs == 500)
-    x = samples(1:50);
+    x = samples(1:10);
 elseif(Fs == 1000)
-    x = samples(1:100);
+    x = samples(1:20);
 end
-L = length(x)
+L = length(x);
 
 Y = fft(x);
 P2 = abs(Y/L);
