@@ -1,4 +1,4 @@
-function data = fftBin(samples,Fs)
+function data = fftBin(samples,Fs,factor)
 
 x = [];
 if(Fs == 500)
@@ -6,6 +6,7 @@ if(Fs == 500)
 elseif(Fs == 1000)
     x = samples(1:20);
 end
+x = x*factor;
 L = length(x);
 
 Y = fft(x);
@@ -17,8 +18,8 @@ P1(2:end-1) = 2*P1(2:end-1);
 df = Fs/L;
 f = 0:df:Fs/2;
 
-maxP1 = max(P1);
-P1 = 100*(P1/maxP1);
+% maxP1 = max(P1);
+% P1 = 100*(P1/maxP1);
 
 % f_main = f(mod(f,50)==0); %only keep the main harmonics component
 

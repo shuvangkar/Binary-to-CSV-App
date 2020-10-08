@@ -10,8 +10,7 @@ Fs = 1000;           %Samplng Frequency
 thdGen = true;      % generate thd 
 dataGen = true;     %Generate Data file
 
-CT_AND_ADC_FACTOR = 1.5;
-PT_AND_ADC_FACTOR = 1.5;
+CT_FACTOR = 
 
 
 folder = uigetdir(pwd, 'Select a folder');
@@ -25,7 +24,7 @@ for i = 1:numel(filesList)
     
     %% THD Store to CSV
     if(thdGen)
-        thdCsv = structToThdCSV(structFile,Fs, CT_AND_ADC_FACTOR);
+        thdCsv = structToThdCSV(structFile,Fs);
         thdFileName = filenameToStr(fileName);
         thdFile = "";
         thdFile = thdFile + folder + "\fft_"+ thdFileName;

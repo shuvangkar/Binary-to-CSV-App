@@ -1,4 +1,4 @@
-function csv = structToThdCSV(dataStruct,Fs)
+function csv = structToThdCSV(dataStruct,Fs,factor)
 [n,m] = size(dataStruct);
 
 %% Find index for per minute continuous data
@@ -47,10 +47,10 @@ for i = 1:n
     C = C - meanC;
     N = N - meanN;
 %     txt = sprintf("--------------count : %d---------------",i)
-    fftA = fftBin(A,Fs);
-    fftB = fftBin(B,Fs);
-    fftC = fftBin(C,Fs);
-    fftN = fftBin(N,Fs);
+    fftA = fftBin(A,Fs,factor);
+    fftB = fftBin(B,Fs,factor);
+    fftC = fftBin(C,Fs,factor);
+    fftN = fftBin(N,Fs,factor);
     csvStr = fftsTocsv(fftA,fftB,fftC,fftN,unixTime) + "\n";
     str = str + compose(csvStr);
  %%CSV print progress 
