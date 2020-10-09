@@ -1,4 +1,4 @@
-function data = fftBin(samples,Fs,factor)
+function data = fftBin(samples,offset,Fs,factor)
 
 x = [];
 if(Fs == 500)
@@ -6,6 +6,13 @@ if(Fs == 500)
 elseif(Fs == 1000)
     x = samples(1:20);
 end
+% dcBlockerIIR = dsp.DCBlocker('Algorithm','IIR','Order', 6);
+% meanX = mean(x);
+% x = x- meanX;
+% x = x';
+% x = dcBlockerIIR(x);
+% x = x';
+x = x - offset;
 x = x*factor;
 L = length(x);
 

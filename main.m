@@ -10,7 +10,7 @@ Fs = 1000;           %Samplng Frequency
 thdGen = true;      % generate thd 
 dataGen = true;     %Generate Data file
 
-CT_AND_ADC_FACTOR = 1.5;
+CT_AND_ADC_FACTOR = 2.2246595745*100*(4.8828125e-3);
 PT_AND_ADC_FACTOR = 1.5;
 
 
@@ -22,10 +22,10 @@ for i = 1:numel(filesList)
     fileName = filesList(i).name;
     File = fullfile(fileDir, fileName);
     structFile = binToStruct(File);
-    
+    offset = get_offset(structFile)
     %% THD Store to CSV
     if(thdGen)
-        thdCsv = structToThdCSV(structFile,Fs, CT_AND_ADC_FACTOR);
+        thdCsv = structToThdCSV(structFile,offset,Fs, CT_AND_ADC_FACTOR);
         thdFileName = filenameToStr(fileName);
         thdFile = "";
         thdFile = thdFile + folder + "\fft_"+ thdFileName;
@@ -35,7 +35,7 @@ for i = 1:numel(filesList)
     end
     %% Raw Data store to CSV
     if(dataGen)
-        csv = structToCsv(structFile);
+        csv = structToCsv(structFile,offset);
         csvFileName = filenameToStr(fileName);
         csvFile = "";
         csvFile = csvFile + folder + '\data_' + csvFileName;

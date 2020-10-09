@@ -12,34 +12,61 @@ clear all;
 L = 20;
 Fs = 1000;
 
-S = [315.5
-270.6
-275.7
-358.8
-370.9
-474.1
-498.3
-518.4
-540.6
-562.123
-644.467
-719.767
-753.98
-730.67
-630.45
-541.789
-517.90
-496.09
-475.123
-448.567
+S = [
+653
+542
+517
+493
+467
+435
+341
+269
+243
+277
+391
+480
+506
+531
+554
+596
+694
+758
+774
+724
+602
+533
+507
+483
+458
+401
+308
+254
+248
+316
 ];
-S = S-mean(S);
+S = S(1:20);
+Savg = S-mean(S)
+Smin = min(Savg)
+Smax = max(Savg)
+dcblker = dsp.DCBlocker('Algorithm','FIR','Length',length(S));
+dc1 = dsp.DCBlocker('Algorithm','IIR','Order', 6);
+y = dcblker(Savg)
+Ymin = min(y)
+Ymax = max(y)
+y2 = dc1(Savg)
+Y2min = min(y2)
+Y2max = max(y2)
+subplot(2,1,1);
+plot(Savg);
+hold on;
+subplot(2,1,2)
+plot(y);
 
-Y = fft(S);
-P2 = abs(Y/L);
-P1 = P2(1:L/2+1);
-P1(2:end-1) = 2*P1(2:end-1)
-f = Fs*(0:(L/2))/L;
-maxP1 = max(P1);
-% P1 = 100*(P1/maxP1)
-plot(f,P1) 
+% Y = fft(S);
+% P2 = abs(Y/L);
+% P1 = P2(1:L/2+1);
+% P1(2:end-1) = 2*P1(2:end-1)
+% f = Fs*(0:(L/2))/L;
+% maxP1 = max(P1);
+% % P1 = 100*(P1/maxP1)
+% plot(f,P1) 

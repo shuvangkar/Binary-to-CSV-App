@@ -1,11 +1,11 @@
-function csv = structToCsv(dataStruct)
+function csv = structToCsv(dataStruct,offset)
     [n,m] = size(dataStruct);
     str = compose("Date and Time,Start(ms), End(ms), Phase A, Phase B, Phase C, Neutral\n");
     
     
     reverseStr = '';
     for i = 1:n
-          packetStr = strucToCsvString(dataStruct(i));
+          packetStr = strucToCsvString(dataStruct(i),offset);
           compose(packetStr); 
           str = str + compose(packetStr);
           
@@ -22,7 +22,7 @@ function csv = structToCsv(dataStruct)
 end
 
 %% This function converter single structure to to csv String 
-function csvStr =  strucToCsvString(dataStruct)
+function csvStr =  strucToCsvString(dataStruct,offset)
     str = "";
     [m,n] = size(dataStruct.data);
     for i = 1:n
@@ -33,19 +33,23 @@ function csvStr =  strucToCsvString(dataStruct)
 %             str = str + num2str(dataStruct.unixTime) + ',';
             str = str + num2str(dataStruct.startMicros) + ',';
             str = str + num2str(dataStruct.endMicros) + ',';
-            str = str + num2str(dataStruct.data(1,i)) + ',';
-            str = str + num2str(dataStruct.data(2,i)) + ',';
-            str = str + num2str(dataStruct.data(3,i)) + ',';
-            str = str + num2str(dataStruct.data(4,i)) + '\n';
+%             str = str + num2str(dataStruct.data(1,i) - ofset.meanA) + ',';
+%             str = str + num2str(dataStruct.data(2,i) - offset.meanB) + ',';
+%             str = str + num2str(dataStruct.data(3,i) - offset.meanC) + ',';
+%             str = str + num2str(dataStruct.data(4,i) - offset.meanN) + '\n';
         else
             str = str + ',';
             str = str + ',';
             str = str + ',';
-            str = str + num2str(dataStruct.data(1,i)) + ',';
-            str = str + num2str(dataStruct.data(2,i)) + ',';
-            str = str + num2str(dataStruct.data(3,i)) + ',';
-            str = str + num2str(dataStruct.data(4,i)) + '\n';
+%             str = str + num2str(dataStruct.data(1,i)) + ',';
+%             str = str + num2str(dataStruct.data(2,i)) + ',';
+%             str = str + num2str(dataStruct.data(3,i)) + ',';
+%             str = str + num2str(dataStruct.data(4,i)) + '\n';
         end
+            str = str + num2str(dataStruct.data(1,i) - offset.meanA) + ',';
+            str = str + num2str(dataStruct.data(2,i) - offset.meanB) + ',';
+            str = str + num2str(dataStruct.data(3,i) - offset.meanC) + ',';
+            str = str + num2str(dataStruct.data(4,i) - offset.meanN) + '\n';
     end
     csvStr = str;
 %     A1.data(1,:)

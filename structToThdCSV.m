@@ -1,4 +1,4 @@
-function csv = structToThdCSV(dataStruct,Fs,factor)
+function csv = structToThdCSV(dataStruct,offset,Fs,factor)
 [n,m] = size(dataStruct);
 
 %% Find index for per minute continuous data
@@ -30,27 +30,34 @@ str = str + headStr +"\n";
 str = compose(str);
 
 %% Calculate thd and convert csv
+% offset = get_offset(dataStruct)
 reverseStr = '';
 n = length(mIdx);
 for i = 1:n
     unixTime = dataStruct(mIdx(i)).unixTime;
-    A = [dataStruct(mIdx(i)).data(1,:) dataStruct(mIdx(i)+1).data(1,:) dataStruct(mIdx(i)+2).data(1,:) dataStruct(mIdx(i)+3).data(1,:)];
-    B = [dataStruct(mIdx(i)).data(2,:) dataStruct(mIdx(i)+1).data(2,:) dataStruct(mIdx(i)+2).data(2,:) dataStruct(mIdx(i)+3).data(2,:)];
-    C = [dataStruct(mIdx(i)).data(3,:) dataStruct(mIdx(i)+1).data(3,:) dataStruct(mIdx(i)+2).data(3,:) dataStruct(mIdx(i)+3).data(3,:)];
-    N = [dataStruct(mIdx(i)).data(4,:) dataStruct(mIdx(i)+1).data(4,:) dataStruct(mIdx(i)+2).data(4,:) dataStruct(mIdx(i)+3).data(4,:)];
-    meanA = mean(A);
-    meanB = mean(B);
-    meanC = mean(C);
-    meanN = mean(N);
-    A = A - meanA;
-    B = B - meanB;
-    C = C - meanC;
-    N = N - meanN;
+%     A = [dataStruct(mIdx(i)).data(1,:) dataStruct(mIdx(i)+1).data(1,:) dataStruct(mIdx(i)+2).data(1,:) dataStruct(mIdx(i)+3).data(1,:)];
+%     B = [dataStruct(mIdx(i)).data(2,:) dataStruct(mIdx(i)+1).data(2,:) dataStruct(mIdx(i)+2).data(2,:) dataStruct(mIdx(i)+3).data(2,:)];
+%     C = [dataStruct(mIdx(i)).data(3,:) dataStruct(mIdx(i)+1).data(3,:) dataStruct(mIdx(i)+2).data(3,:) dataStruct(mIdx(i)+3).data(3,:)];
+%     N = [dataStruct(mIdx(i)).data(4,:) dataStruct(mIdx(i)+1).data(4,:) dataStruct(mIdx(i)+2).data(4,:) dataStruct(mIdx(i)+3).data(4,:)];
+    
+    
+    A = dataStruct(mIdx(i)).data(1,:);
+    B = dataStruct(mIdx(i)).data(2,:);
+    C = dataStruct(mIdx(i)).data(3,:);
+    N = dataStruct(mIdx(i)).data(4,:);
+%     meanA = mean(A);
+%     meanB = mean(B);
+%     meanC = mean(C);
+%     meanN = mean(N);
+%     A = A - meanA;
+%     B = B - meanB;
+%     C = C - meanC;
+%     N = N - meanN;
 %     txt = sprintf("--------------count : %d---------------",i)
-    fftA = fftBin(A,Fs,factor);
-    fftB = fftBin(B,Fs,factor);
-    fftC = fftBin(C,Fs,factor);
-    fftN = fftBin(N,Fs,factor);
+    fftA = fftBin(A,offset.meanA, Fs,factor);
+    fftB = fftBin(B,offset.meanB, Fs,factor);
+    fftC = fftBin(C,offset.meanC, Fs,factor);
+    fftN = fftBin(N,offset.meanN, Fs,factor);
     csvStr = fftsTocsv(fftA,fftB,fftC,fftN,unixTime) + "\n";
     str = str + compose(csvStr);
  %%CSV print progress 
