@@ -69,7 +69,7 @@ end
 function fftCsv = fftsTocsv(fftA,fftB, fftC, fftN , unixTime)
 
 str = "";
-dt = datetime(unixTime,'ConvertFrom', 'posixtime' );
+dt = datetime(unixTime,'ConvertFrom', 'posixtime', 'TimeZone', 'Asia/Dhaka');
 str = str + datestr( dt ) + ',';
 str = str + fftPhaseToCsv(fftA);
 str = str + fftPhaseToCsv(fftB);
