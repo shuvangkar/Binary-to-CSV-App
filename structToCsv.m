@@ -27,7 +27,8 @@ function csvStr =  strucToCsvString(dataStruct)
     [m,n] = size(dataStruct.data);
     for i = 1:n
         if(i == 1)
-            dt = datetime(dataStruct.unixTime,'ConvertFrom', 'posixtime' );
+            time = dataStruct.unixTime - 21600;
+            dt = datetime(time,'ConvertFrom', 'posixtime' );
             str = str + datestr( dt ) + ',';
 %             str = str + num2str(dataStruct.unixTime) + ',';
             str = str + num2str(dataStruct.startMicros) + ',';
