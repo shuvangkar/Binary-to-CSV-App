@@ -45,28 +45,33 @@ S = [
 316
 ];
 S = S(1:20);
-Savg = S-mean(S)
-Smin = min(Savg)
-Smax = max(Savg)
-dcblker = dsp.DCBlocker('Algorithm','FIR','Length',length(S));
-dc1 = dsp.DCBlocker('Algorithm','IIR','Order', 6);
-y = dcblker(Savg)
-Ymin = min(y)
-Ymax = max(y)
-y2 = dc1(Savg)
-Y2min = min(y2)
-Y2max = max(y2)
-subplot(2,1,1);
-plot(Savg);
-hold on;
-subplot(2,1,2)
-plot(y);
+S = S-mean(S);
+Smin = min(S)
+Smax = max(S)
+% dcblker = dsp.DCBlocker('Algorithm','FIR','Length',length(S));
+% dc1 = dsp.DCBlocker('Algorithm','IIR','Order', 6);
+% y = dcblker(Savg)
+% Ymin = min(y)
+% Ymax = max(y)
+% y2 = dc1(Savg)
+% Y2min = min(y2)
+% Y2max = max(y2)
+% subplot(2,1,1);
 
-% Y = fft(S);
-% P2 = abs(Y/L);
-% P1 = P2(1:L/2+1);
-% P1(2:end-1) = 2*P1(2:end-1)
-% f = Fs*(0:(L/2))/L;
-% maxP1 = max(P1);
-% % P1 = 100*(P1/maxP1)
-% plot(f,P1) 
+
+
+Y = fft(S);
+P2 = abs(Y/L);
+P1 = P2(1:L/2+1);
+P1(2:end-1) = 2*P1(2:end-1)
+f = Fs*(0:(L/2))/L;
+maxP1 = max(P1);
+% P1 = 100*(P1/maxP1)
+subplot(3,1,1);
+plot(S);
+hold on;
+subplot(3,1,2)
+plot(f,P1)
+hold on
+% subplot(3,1,3)
+% plot(ifft(P1))

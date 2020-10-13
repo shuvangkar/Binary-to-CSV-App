@@ -11,16 +11,16 @@ end
 mIdx = getMinuteIndex(dataStruct,idx);
 
 %% Heading 
-harStr5 = "0Hz, 50Hz, 100Hz, 150Hz, 200Hz, 250Hz";
-harStr10 = "0Hz, 50Hz, 100Hz, 150Hz, 200Hz, 250Hz, 300Hz, 350Hz, 400Hz, 450Hz, 500Hz";
+harStr5 = "rms,0Hz, 50Hz, 100Hz, 150Hz, 200Hz, 250Hz";
+harStr10 = "rms,0Hz, 50Hz, 100Hz, 150Hz, 200Hz, 250Hz, 300Hz, 350Hz, 400Hz, 450Hz, 500Hz";
 
 str = "";
 headStr = "";
 if(Fs == 500)
     headStr = harStr5;
-    str = "Time,Phase A,,,,,,PhaseB,,,,,, PhaseC,,,,,, Phase N \n";
+    str = "Time,Phase A,,,,,,,PhaseB,,,,,,, PhaseC,,,,,,, Phase N \n";
 elseif (Fs == 1000)
-    str = "Time,Phase A,,,,,,,,,,,PhaseB,,,,,,,,,,, PhaseC,,,,,,,,,,, Phase N \n";
+    str = "Time,Phase A,,,,,,,,,,,,PhaseB,,,,,,,,,,,, PhaseC,,,,,,,,,,,, Phase N \n";
     headStr = harStr10;
 end
 str = str + "," + headStr +",";
@@ -54,11 +54,19 @@ for i = 1:n
 %     C = C - meanC;
 %     N = N - meanN;
 %     txt = sprintf("--------------count : %d---------------",i)
+    A = A - offset.meanA;
+    B = B - offset.meanB;
+    C = C- offset.meanC;
+    N = N - offset.meanN;
+    Rms.A = factor*rms(A);
+    Rms.B = factor*rms(B);
+    Rms.C = factor*rms(C);
+    Rms.N = factor*rms(N);
     fftA = fftBin(A,offset.meanA, Fs,factor);
     fftB = fftBin(B,offset.meanB, Fs,factor);
     fftC = fftBin(C,offset.meanC, Fs,factor);
     fftN = fftBin(N,offset.meanN, Fs,factor);
-    csvStr = fftsTocsv(fftA,fftB,fftC,fftN,unixTime) + "\n";
+    csvStr = fftsTocsv(Rms,fftA,fftB,fftC,fftN,unixTime) + "\n";
     str = str + compose(csvStr);
  %%CSV print progress 
     progress = (i/n)*100.0;
@@ -73,7 +81,7 @@ csv = str;
 end
 
 %% FFT to CSV String conversion
-function fftCsv = fftsTocsv(fftA,fftB, fftC, fftN , unixTime)
+function fftCsv = fftsTocsv(RMS,fftA,fftB, fftC, fftN , unixTime)
 
 str = "";
 % time = unixTime - (21600*3);
@@ -81,9 +89,13 @@ time = unixTime;
 dt = datetime(time,'ConvertFrom', 'posixtime');
 % , 'TimeZone', 'Asia/Dhaka'
 str = str + datestr( dt ) + ',';
+str = str + num2str(RMS.A,'%.2f')+ ',';
 str = str + fftPhaseToCsv(fftA);
+str = str + num2str(RMS.B,'%.2f')+ ',';
 str = str + fftPhaseToCsv(fftB);
+str = str + num2str(RMS.C,'%.2f')+ ',';
 str = str + fftPhaseToCsv(fftC);
+str = str + num2str(RMS.N,'%.2f')+ ',';
 str = str + fftPhaseToCsv(fftN);
 fftCsv = str;
 end

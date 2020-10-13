@@ -8,7 +8,7 @@ clear all;
 
 Fs = 1000;           %Samplng Frequency
 thdGen = true;      % generate thd 
-dataGen = true;     %Generate Data file
+dataGen = false;     %Generate Data file
 
 CT_AND_ADC_FACTOR = 2.2246595745*100*(4.8828125e-3);
 PT_AND_ADC_FACTOR = 1.5;
